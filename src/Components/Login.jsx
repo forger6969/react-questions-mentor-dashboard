@@ -11,11 +11,11 @@ const Login = () => {
 
     const navigate = useNavigate()
 
-    // const getMentors = async () => {
-    //     const getMentors = await axios.get(`https://json-questions-2.onrender.com/mentors`)
-    //     const data = getMentors.data
-    //     setMentors(data)
-    // }
+    const getMentors = async () => {
+        const getMentors = await axios.get(`https://json-questions-2.onrender.com/mentors`)
+        const data = getMentors.data
+        setMentors(data)
+    }
 
     const checkLocalStoarge = JSON.parse(localStorage.getItem(`mentor`))
     if (checkLocalStoarge) {

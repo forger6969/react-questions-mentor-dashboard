@@ -32,10 +32,10 @@ const SideBar = () => {
                 </NavLink>
 
                 <NavLink
-                    to="/settings"
+                    to="/MentorsDashboard/AdminPanel"
                     className="text-gray-700 hover:text-[#2E37A4] font-medium"
                 >
-                    Настройки
+                    Админ панель
                 </NavLink>
             </nav>
 
