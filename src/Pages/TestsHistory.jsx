@@ -31,7 +31,7 @@ const TestsHistory = () => {
                     <div className="overflow-y-auto max-h-[70vh] flex flex-col gap-4 pr-2">
                         {tests.map((m) => {
                             const student = users.find((f) => f.id === m.student_id)
-                            if (!student) return null
+
 
                             return (
                                 <div
@@ -42,7 +42,7 @@ const TestsHistory = () => {
 
                                         <div className="flex flex-col">
                                             <span className="font-semibold text-lg text-base-content">
-                                                {student.firstName} {student.lastName}
+                                                {student ? student.firstName : "Имя пользователя не найдено"} {student ? student.lastName : ""}
                                             </span>
                                             <span className="text-sm text-base-content/70 mt-1">
                                                 Тип теста: {m.test_type}
