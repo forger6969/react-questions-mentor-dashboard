@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import ThemeSwitcher from './themeSwitcher'
+import ThemeSwitcher from './ThemeSwitcher.jsx'
 
 const Dashboard = () => {
     const [students, setStudents] = useState([])
