@@ -1,23 +1,16 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
-import SideBar from '../Components/SideBar'
+import { useNavigate } from 'react-router-dom'
+import ThemeSwitcher from './themeSwitcher'
 
 const Dashboard = () => {
-
-
     const [students, setStudents] = useState([])
     const [tests, setTests] = useState([])
-    const [activeStudents, setActives] = useState([])
     const [mentor, setMentor] = useState(null)
     const navigate = useNavigate()
 
-    console.log(mentor);
-
-
     const firstWrokedFunction = async () => {
         const getmentor = JSON.parse(localStorage.getItem(`mentor`))
-        console.log(getmentor);
 
         if (getmentor) {
             setMentor(getmentor)
@@ -26,83 +19,85 @@ const Dashboard = () => {
         }
 
         const getStudents = await axios.get(`https://json-questions-2.onrender.com/users`)
-        const data = getStudents.data
-        setStudents(data)
+        setStudents(getStudents.data)
 
         const getTests = await axios.get(`https://json-questions-2.onrender.com/results`)
-        const testDatas = getTests.data
-        setTests(testDatas)
-
-        const activeUsers = []
-
-        for (let index = 0; index < students.length; index++) {
-
-            const find = tests.find((f) => f.student_id === students[index].id)
-
-            if (find) {
-                activeUsers.push(find)
-            }
-
-        }
-
-        console.log(activeUsers);
-
+        setTests(getTests.data)
     }
-
 
     useEffect(() => {
         firstWrokedFunction()
     }, [])
 
     return (
-        <div>
+        <div className="p-8">
 
-            <main className="flex-1 p-8">
-                <div className="flex justify-between items-center mb-8">
-                    <h2 className="text-3xl font-bold" style={{ color: '#2E37A4' }}>Добро пожаловать, {mentor?.firstName || "Loading"}!</h2>
-                    <div className="flex items-center gap-4">
-                        <span className="text-gray-700 font-medium">{mentor?.firstName || "Loading"} </span>
-                        <img src="/avatar.png" alt="avatar" className="w-10 h-10 rounded-full" />
-                    </div>
+            {/* HEADER */}
+            <div className="flex justify-between items-center mb-10">
+                <h2 className="text-3xl font-bold text-primary">
+                    Добро пожаловать, {mentor?.firstName || "Loading"}!
+                </h2>
+
+
+                <div className="flex items-center gap-4">
+                    <ThemeSwitcher />
+                    <span className="font-medium">{mentor?.firstName || "Loading"} </span>
+                    <img src="/avatar.png" alt="avatar" className="w-10 h-10 rounded-full" />
+                </div>
+            </div>
+
+            {/* STATS */}
+            <div className="stats shadow w-full mb-10 grid grid-cols-1 md:grid-cols-3">
+                <div className="stat">
+                    <div className="stat-title">Всего студентов</div>
+                    <div className="stat-value">{students.length}</div>
                 </div>
 
-                <div className="grid grid-cols-3 gap-6 mb-8">
-                    <div className="bg-white rounded-lg shadow-md p-6 border-l-4" style={{ borderColor: '#2E37A4' }}>
-                        <h3 className="text-lg font-semibold text-gray-700 mb-2">Всего студентов</h3>
-                        <p className="text-2xl font-bold text-gray-900">{students?.length || 'Loading'}</p>
-                    </div>
-                    <div className="bg-white rounded-lg shadow-md p-6 border-l-4" style={{ borderColor: '#2E37A4' }}>
-                        <h3 className="text-lg font-semibold text-gray-700 mb-2">Пройдено тестов</h3>
-                        <p className="text-2xl font-bold text-gray-900">{tests?.length || "loading"}</p>
-                    </div>
-                    <div className="bg-white rounded-lg shadow-md p-6 border-l-4" style={{ borderColor: '#2E37A4' }}>
-                        <h3 className="text-lg font-semibold text-gray-700 mb-2">Активные студенты</h3>
-                        <p className="text-2xl font-bold text-gray-900">85</p>
-                    </div>
+                <div className="stat">
+                    <div className="stat-title">Пройдено тестов</div>
+                    <div className="stat-value">{tests.length}</div>
                 </div>
 
-                <div className="bg-white rounded-lg shadow-md p-6 overflow-x-auto">
-                    <h3 className="text-xl font-semibold mb-4" style={{ color: '#2E37A4' }}>Список студентов</h3>
-                    <table className="min-w-full divide-y divide-gray-200">
+                <div className="stat">
+                    <div className="stat-title">Активные студенты</div>
+                    <div className="stat-value text-primary">
+                        {
+                            tests.filter(t => students.some(s => s.id === t.student_id)).length
+                        }
+                    </div>
+                </div>
+            </div>
+
+            {/* STUDENTS TABLE */}
+            <div className="card bg-base-100 shadow-xl p-6">
+                <h3 className="text-xl font-semibold text-primary mb-4">Список студентов</h3>
+
+                <div className="overflow-x-auto">
+                    <table className="table table-zebra w-full">
                         <thead>
                             <tr>
-                                <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">Имя</th>
-                                <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">Пройдено тестов</th>
+                                <th>Имя</th>
+                                <th>Пройдено тестов</th>
+                                <th>Статус</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody>
                             {students.map((m) => {
-
                                 const filter = tests.filter((f) => f.student_id === m.id)
-                                const check = filter.length === 0
-
+                                const zero = filter.length === 0
 
                                 return (
-                                    <tr>
-                                        <td className="px-6 py-4">{m.firstName} {m.lastName}</td>
-                                        <td className="px-6 py-4">{filter.length === 0 ? `Не сдавал` : filter.length}</td>
-                                        <td className="px-6 py-4">
-                                            <span className={`px-2 py-1 rounded-full text-white  ${check ? 'bg-amber-700' : "bg-green-600"} `}>{check ? `Неактивен` : `Активен`} </span>
+                                    <tr key={m.id}>
+                                        <td>{m.firstName} {m.lastName}</td>
+
+                                        <td>
+                                            {zero ? "Не сдавал" : filter.length}
+                                        </td>
+
+                                        <td>
+                                            <span className={`badge ${zero ? "badge-warning" : "badge-success"} badge-lg`}>
+                                                {zero ? "Неактивен" : "Активен"}
+                                            </span>
                                         </td>
                                     </tr>
                                 )
@@ -110,8 +105,7 @@ const Dashboard = () => {
                         </tbody>
                     </table>
                 </div>
-
-            </main>
+            </div>
 
         </div>
     )

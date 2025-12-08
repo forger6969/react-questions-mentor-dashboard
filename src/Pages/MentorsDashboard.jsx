@@ -7,7 +7,7 @@ import AdminPanel from "./AdminPanel";
 
 const MentorsDashboard = () => {
     return (
-        <div className="flex bg-gray-100">
+        <div className="flex">
             <SideBar />
 
             <div className="flex-1">

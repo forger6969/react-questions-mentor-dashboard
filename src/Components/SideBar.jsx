@@ -3,47 +3,58 @@ import { NavLink } from "react-router-dom";
 
 const SideBar = () => {
     return (
-        <aside className="w-64 bg-white shadow-lg flex flex-col h-[100vh]">
+        <aside className="w-64 bg-base-100 shadow-lg flex flex-col h-screen">
 
-            <div className="p-6 border-b border-gray-200">
-                <h1 className="text-2xl font-bold" style={{ color: "#2E37A4" }}>
+            {/* HEADER */}
+            <div className="p-6 border-b border-base-200">
+                <h1 className="text-2xl font-bold text-primary">
                     Mentor Panel
                 </h1>
             </div>
 
-            <nav className="flex-1 p-6 flex flex-col gap-4">
-
-                <NavLink
-                    to="/MentorsDashboard/"
-                    className={({ isActive }) =>
-                        `font-medium ${isActive ? "text-[#2E37A4]" : "text-gray-700"}`
-                    }
-                >
-                    Главная
-                </NavLink>
-
-                <NavLink
-                    to="/MentorsDashboard/TestsHistory"
-                    className={({ isActive }) =>
-                        `font-medium ${isActive ? "text-[#2E37A4]" : "text-gray-700"}`
-                    }
-                >
-                    Тесты
-                </NavLink>
-
-                <NavLink
-                    to="/MentorsDashboard/AdminPanel"
-                    className="text-gray-700 hover:text-[#2E37A4] font-medium"
-                >
-                    Админ панель
-                </NavLink>
+            {/* NAVIGATION */}
+            <nav className="flex-1 p-6">
+                <ul className="menu w-full">
+                    <li>
+                        <NavLink
+                            to="/MentorsDashboard/"
+                            className={({ isActive }) =>
+                                isActive ? "text-primary font-semibold" : "text-base-content font-medium"
+                            }
+                        >
+                            Главная
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            to="/MentorsDashboard/TestsHistory"
+                            className={({ isActive }) =>
+                                isActive ? "text-primary font-semibold" : "text-base-content font-medium"
+                            }
+                        >
+                            Тесты
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            to="/MentorsDashboard/AdminPanel"
+                            className={({ isActive }) =>
+                                isActive ? "text-primary font-semibold" : "text-base-content font-medium"
+                            }
+                        >
+                            Админ панель
+                        </NavLink>
+                    </li>
+                </ul>
             </nav>
 
-            <div className="p-6 border-t border-gray-200">
-                <button className="w-full bg-[#2E37A4] hover:bg-[#1f2580] text-white py-2 rounded-lg font-semibold">
+            {/* LOGOUT BUTTON */}
+            <div className="p-6 border-t border-base-200">
+                <button className="btn btn-primary w-full">
                     Выйти
                 </button>
             </div>
+
         </aside>
     );
 };
