@@ -4,6 +4,8 @@ import SideBar from "../Components/SideBar";
 import Dashboard from "../Components/Dashboard";
 import TestsHistory from "./TestsHistory";
 import AdminPanel from "./AdminPanel";
+import UsersSetting from "../Components/UsersSetting";
+import TestSetting from "../Components/TestSetting";
 
 const MentorsDashboard = () => {
     return (
@@ -14,7 +16,14 @@ const MentorsDashboard = () => {
                 <Routes>
                     <Route path="/" element={<Dashboard />} />
                     <Route path="TestsHistory" element={<TestsHistory />} />
-                    <Route path="AdminPanel" element={<AdminPanel />} />
+
+
+                    <Route path="AdminPanel" element={<AdminPanel />} >
+
+                        <Route index element={<UsersSetting />} />
+                        <Route path="addTest" element={<TestSetting />} />
+
+                    </Route>
                 </Routes>
 
             </div>

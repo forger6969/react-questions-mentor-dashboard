@@ -1,7 +1,15 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const SideBar = () => {
+
+    const navigate = useNavigate()
+
+    const exitAccount = () => {
+        localStorage.clear()
+        navigate(`/`)
+    }
+
     return (
         <aside className="w-64 bg-base-100 shadow-lg flex flex-col h-screen">
 
@@ -49,7 +57,7 @@ const SideBar = () => {
             </nav>
 
             {/* LOGOUT BUTTON */}
-            <div className="p-6 border-t border-base-200">
+            <div className="p-6 border-t border-base-200" onClick={exitAccount}>
                 <button className="btn btn-primary w-full">
                     Выйти
                 </button>
