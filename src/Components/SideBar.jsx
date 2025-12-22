@@ -55,7 +55,7 @@ const SideBar = () => {
                     </li>
                 </ul>
             </nav>
-
+                            
             {/* LOGOUT BUTTON */}
             <div className="p-6 border-t border-base-200" onClick={exitAccount}>
                 <button className="btn btn-primary w-full">
